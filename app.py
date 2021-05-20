@@ -12,6 +12,10 @@ def home(id='363'):
     today = date.today().strftime("%d-%m-%Y")
     age = request.args.get("age")
     age = 18 if age != '45' else 45
+
+    dummy = True if request.args.get("dummy") == 'true' else False
+    print(request.args.get("dummy"))
+
     url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="+str(id)+"&date="+today
 
     payload={}
@@ -25,8 +29,9 @@ def home(id='363'):
     response = requests.request("GET", url, headers=headers, data=payload)
     response_text = response.json();
 
-    # response = open('dummy.json',)
-    # response_text = json.load(response)
+    if dummy == True:
+        response = open('dummy.json',)
+        response_text = json.load(response)
 
     def filter_age(centers):
         filtered_center = [];
@@ -57,6 +62,11 @@ def home(id='363'):
         data = {
             'value1': city
         }
+
+        if dummy == True:
+            data = {
+                'value1': "Dummy-" +city
+            }
         requests.post(ifttt_webhook_url1, data=data)
         requests.post(ifttt_webhook_url2, data=data)
 
