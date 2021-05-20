@@ -14,62 +14,91 @@
     <link rel="stylesheet" href={{ url_for('static', filename='index.css') }} />
     <script src={{ url_for('static', filename='jquery.min.js') }}></script>
     <script src={{ url_for('static', filename='bootstrap.bundle.min.js') }}></script>
-		<title>Title page</title>
+		<title>Vaccine Finder</title>
 
-		<link href="./static/main.3f6952e4.css" rel="stylesheet" />
 	</head>
 
 	<body>
-		<div class="container mt-5">
-			<div class="row">
-      <h1 class="center">Vaccine Finder</h1>
-				<div class="col-md-12">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Center</th>
-                <th scope="col">Address</th>
-                <th scope="col">
-                  <table>
-                    <tr>
-                      <th scope="col">A</th>
-                      <th scope="col">B</th>
-                    </tr>
+		<section>
+        <div>
+          <div class="col-sm-12 mb-5">            
 
-                  </table>
-                </th>
-                <th scope="col">Fees</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% set count = 1 %}
-              {% for center in result %}
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              
+              <a class="navbar-brand" href="/"><h2 style="color:white;"class="heading-section text-center">Vaccine Finder</h2></a></h2>
+            
+              <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                  <li class="nav-item {{ 'active' if id == '363'}}">
+                    
+                    <a class="nav-link" href="/363">Pune</a>
+                  </li>
+                  <li class="nav-item {{ 'active' if id == '395' }}">
+                    <a class="nav-link" href="395">Mumbai</a>
+                  </li>
+                  <li class="nav-item {{ 'active' if id == '154' }}">
+                    <a class="nav-link" href="/154">Ahmedabad</a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div class="col-md-12">
+              {% if length == 0 %}
+                <h2>No Vaccine Available</h2>
+              {% else %}
+              <div class="table-wrap">
+              <table class="table table-striped">
+                <thead>
                   <tr>
-                    <td class="col-sm-1"> {{count}}</td>
-                    <td class="col-sm-2">{{center.name}} <span class="badge badge-light">{{center.fee_type}}</span></td>
-                    <td class="col-sm-2">{{center.address}}, {{center.block_name}}, {{center.pincode}}</td>
-                    <td class="col-sm-6">
-                      <table class="table table-striped">
-                        {% for session in center.sessions %}
-                          <tr>
-                              <td>{{session.date}}</td>
-                              <td>{{session.vaccine}}</td>
-                              <td>{{session.available_capacity}}</td>
-                              <td>Dose1: {{session.available_capacity_dose1}}</td>
-                              <td>Dose2: {{session.available_capacity_dose2}}</td>
-                          </tr>
-                          {% endfor %}
-                        </table>
-                      </td>
-                      <td class="col-sm-1">{{center.vaccine_fees[0].fee}}</td>
+                    <th scope="col"  class="col-sm-1">#</th>
+                    <th scope="col">Center</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Fees</th>
                   </tr>
-                  {% set count = count + 1 %}
-              {% endfor %}
-            </tbody>
-          </table>
-				</div>
-			</div>
-		</div>
+                </thead>
+                <tbody>
+                  {% set count = 1 %}
+                  {% for center in result %}
+                      <tr>
+                        <td> {{count}}</td>
+                        <td>{{center.name}} <span class="badge badge-info">{{center.fee_type}}</span></td>
+                        <td>{{center.address}}, {{center.block_name}}, {{center.pincode}}</td>
+                        <td>
+                          <table class="table table-striped">
+                            {% for session in center.sessions %}
+                              <tr>
+                                  <td>{{session.date}}</td>
+                                  <td>{{session.vaccine}}</td>
+                                  <td class="bg-success">{{session.available_capacity}}</td>
+                                  <td>Dose1: {{session.available_capacity_dose1}}</td>
+                                  <td>Dose2: {{session.available_capacity_dose2}}</td>
+                              </tr>
+                              {% endfor %}
+                            </table>
+                          </td>
+                          <td>{{center.vaccine_fees[0].fee}}</td>
+                      </tr>
+                      {% set count = count + 1 %}                  
+                  {% endfor %}
+                  
+                </tbody>
+                </table>
+              </div>
+              {% endif %}
+				  </div>
+        </div>
+        <footer class="text-center">
+          <span class="foot">&#169;Copyright 2021 by Pranav Shah</span>
+          <span class="note">**Note: This is only for reference purpose. Data shown here might not be accurate. Please visit government website.</span>
+        </footer>
+    </section>
+
 	</body>
 </html>
